@@ -19,7 +19,7 @@ public class StringCalculator {
        if(!negatives.isEmpty()){
            throw new IllegalArgumentException("Negative numbers are not allowed: " + negatives.stream().map(String::valueOf).collect(Collectors.joining(",")));
        }
-       return Arrays.stream(parts).mapToInt(Integer::parseInt).sum();
+       return Arrays.stream(parts).mapToInt(Integer::parseInt).filter(n -> n <= 1000).sum();
     }
 
 }
