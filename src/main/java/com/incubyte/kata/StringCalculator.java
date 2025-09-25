@@ -1,6 +1,8 @@
 package com.incubyte.kata;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -12,14 +14,15 @@ public class StringCalculator {
        if(numbers.startsWith("//")){
            int delimiterIndex = numbers.indexOf('\n');
            String delimiterPart = numbers.substring(2, delimiterIndex);
-
-           if(delimiterPart.startsWith("[") && delimiterPart.endsWith("]")){
-
-               delimiterPart = delimiterPart.substring(1,delimiterPart.length()-1);
-               delimiter = Pattern.quote(delimiterPart);
-           }else{
-               delimiter = Pattern.quote(delimiterPart);
+           List<String> delimiters = new ArrayList<>();
+           Matcher multiDelimMatcher = Pattern.compile("\\[(.*?)]").matcher(delimiterPart);
+           while (multiDelimMatcher.find()) {
+               delimiters.add(Pattern.quote(multiDelimMatcher.group(1)));
            }
+           if (delimiters.isEmpty()) {
+               delimiters.add(Pattern.quote(delimiterPart));
+           }
+           delimiter = String.join("|", delimiters);
            numbers = numbers.substring(delimiterIndex + 1);
        }
        String[] parts = numbers.split(delimiter);
