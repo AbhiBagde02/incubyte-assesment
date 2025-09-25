@@ -11,7 +11,15 @@ public class StringCalculator {
        String delimiter = "[, \n]";
        if(numbers.startsWith("//")){
            int delimiterIndex = numbers.indexOf('\n');
-           delimiter = Pattern.quote(numbers.substring(2,delimiterIndex));
+           String delimiterPart = numbers.substring(2, delimiterIndex);
+
+           if(delimiterPart.startsWith("[") && delimiterPart.endsWith("]")){
+
+               delimiterPart = delimiterPart.substring(1,delimiterPart.length()-1);
+               delimiter = Pattern.quote(delimiterPart);
+           }else{
+               delimiter = Pattern.quote(delimiterPart);
+           }
            numbers = numbers.substring(delimiterIndex + 1);
        }
        String[] parts = numbers.split(delimiter);
