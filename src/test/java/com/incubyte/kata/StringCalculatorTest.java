@@ -59,4 +59,9 @@ public class StringCalculatorTest {
     void supportsMultipleLongDelimiters() {
         assertEquals(6, StringCalculator.add("//[***][%%]\n1***2%%3"));
     }
+
+    @Test
+    void supportsAestricDelimiter() {
+        assertEquals(6,StringCalculator.add("//*\n2*3"));
+    }
 }
